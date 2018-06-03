@@ -8,6 +8,8 @@
     "google-maps-react": "^2.0.2",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-promise": "^2.0.3",
+    "react-redux": "^5.0.7",
     "react-scripts": "1.1.4"
   },
   "scripts": {
@@ -16,5 +18,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://data.cityofnewyork.us/resource"
+  "proxy": "http://localhost:8080"
 }

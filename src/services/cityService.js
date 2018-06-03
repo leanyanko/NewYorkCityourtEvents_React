@@ -5,12 +5,17 @@ const services = {}; //= axios.create();
 const AUTH_TOKEN = 'Tb6LBwjMBVogm2JNZA5LPpYjk';
 //const AUTH_TOKEN = 'i8xVr2JzZFq1Yn7bV22MW6f6Nl4BoIsdxiWY';
 
-// axios.defaults.baseURL = 'https://data.cityofnewyork.us/resource/buex-bi6w.json';
-// axios.defaults.headers.common['X-Auth-Token'] = AUTH_TOKEN;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+const serverUrl = 'https://localhost:8080/requests';
 
-services.getData = () => {
- return axios.get('https://data.cityofnewyork.us/resource/buex-bi6w.json');
+services.getList = () => {
+    console.log("TRY");
+    return axios.get('/requests');
+}
+
+const baseURL = 'https://data.cityofnewyork.us/resource/buex-bi6w.json';
+services.getData = (category) => {
+    const url = `${baseURL}?category_description=${category}`
+    return axios.get(url);
 }
 
 services.postTo = (data) => {
