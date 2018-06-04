@@ -1,76 +1,60 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
-import {GoogleMapsClient} from '@google/maps';
+import { GoogleMapsClient } from '@google/maps';
+import './MapContainer.css';
 
 export class MapContainer extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      pins: [],
-      markers: null,
-      inrender: true
-    }
+      googleMapsClient: require('@google/maps').createClient({
+        key: 'AIzaSyAq-g7tq3wnCbDeA_LawIl3yshGDCbHw3s',
+        Promise: Promise
+      })
+    };
 
-    this.renderPins.bind(this);
+    this.getPins.bind(this);
+    this.renderMarkers.bind(this);
   }
 
+  componentWillUpdate(nextProps) {
+    // set pins only one time
+    if (!this.state.pins && nextProps.pins) {
+      this.getPins(nextProps.pins);
+    }
+  }
 
+  /**
+   * Get latitude and longitude from google maps service.
+   * @param {*} pins 
+   */
+  getPins(pins) {
+    const tempPins = [];
+    pins.forEach(pin => {
+      if (!pin.address_to_request) return;
 
-renderPins() {
-
-  var googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyAq-g7tq3wnCbDeA_LawIl3yshGDCbHw3s',
-    Promise: Promise
+      this.state.googleMapsClient.geocode({address:  pin.address_to_request})
+      .asPromise()
+      .then((response) => tempPins.push(response.json.results[0].geometry.location))
+      .then(() => this.setState({ pins: tempPins }))
+      .catch(console.error);
   });
+  }
 
-  let tmp = [];
-
-      this.props.pins.forEach(pin => {  
-        if (!pin.address_to_request) return; 
-        googleMapsClient.geocode({address:  pin.address_to_request})
-        .asPromise()
-        .then((response) => {
-          tmp.push(response.json.results[0].geometry.location);
-          // console.log(response.json.results[0].geometry.location);
-       //   this.state.pins.push(<Marker position={response.json.results[0].geometry.location} />);
-          // return <Marker position={response.json.results[0].geometry.location} />
-        })
-        .then(() => {
-          this.setState({pins: tmp , inrender: false})
-        })
-      .catch((err) => {
-        console.log(err);
-      });
-    });
-  
-  console.log('new pins ', this.state.pins);
-
-}
+  renderMarkers() {
+    return this.state.pins.map((location, i) => <Marker key={i} position={location} />);
+  }
 
   render() {
-      if(this.props.pins) {
-        if(this.state.inrender) {
-          this.renderPins();
-        }
-      }
-      console.log("data from app ", this.state.pins);
-      const marker = this.state.pins.map((location) => {
-        return <Marker position={location} />
-      })
-     
-  
-      let pos = {
-        lat: 40.712804,
-        lng: -74.010719
-      };
-
     return (
-       <Map google={this.props.google} zoom={14} initialCenter={this.props.initialCenter}>
-        {/* {this.state.pins} */}
-        {marker}
-      </Map>
+      <div className={classNames({'map-container': true, show: this.props.show === 'show', hide: this.props.show === 'hide'})}>
+        <Map google={this.props.google} zoom={14} initialCenter={this.props.initialCenter} className={'map'}>
+          { this.state.pins ? this.renderMarkers() : null }
+        </Map>
+      </div>
     );
   }
 }
