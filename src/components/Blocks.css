@@ -1,0 +1,11 @@
+.expand {
+  transition: height 1s ease-in;
+  height: 400px;
+  transition: width 1s ease-in-out;
+  width: 100%; }
+  .expand h2 {
+    color: #B28741; }
+
+.collapse {
+  transition: height 0.5s ease-in;
+  height: auto; }
