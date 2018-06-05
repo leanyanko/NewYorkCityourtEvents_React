@@ -11,7 +11,7 @@ export class MapContainer extends Component {
     super(props);
     this.state = {
       googleMapsClient: require('@google/maps').createClient({
-        key: 'AIzaSyAq-g7tq3wnCbDeA_LawIl3yshGDCbHw3s',
+        key: 'AIzaSyB5DoqbsI9SXZiZexLfN1oJq6z-KrWBr7s',
         Promise: Promise
       })
     };
@@ -60,5 +60,9 @@ export class MapContainer extends Component {
 }
  
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyAq-g7tq3wnCbDeA_LawIl3yshGDCbHw3s')
+ // apiKey: ('AIzaSyAq-g7tq3wnCbDeA_LawIl3yshGDCbHw3s')
+ apiKey: ('AIzaSyB5DoqbsI9SXZiZexLfN1oJq6z-KrWBr7s')
 })(MapContainer)
+
+
+//AIzaSyB5DoqbsI9SXZiZexLfN1oJq6z-KrWBr7s

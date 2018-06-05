@@ -29,7 +29,7 @@ class Constructions extends Component {
       .then(response => {
         const subset = response.data;
   
-        let subset_time = subset.filter(entry => +entry.end_date.split("-")[0] > 2017);
+        let subset_time = subset.filter(entry => +entry.end_date.split("-")[0] > 2010);
         this.setState({constructions: subset_time});
         console.log("constructions", this.state.constructions)
       })

@@ -11,7 +11,7 @@ const LoginForm = () => (
 
 const LogoutComponent = (props) => (
     <div>
-        <h2>Your name is {props.name}</h2>
+        <h2>Welcome, {props.name}</h2>
         <button onClick={props.logout}>Logout</button>
     </div>
 );
